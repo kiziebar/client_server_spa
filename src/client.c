@@ -30,9 +30,6 @@ int main(){
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(PORT);
 	servaddr.sin_addr.s_addr = INADDR_ANY;
-	//servaddr.sin_addr.s_addr = INADDR_BROADCAST;
-
-	//printf("%d", htons(PORT));
 
 	int n, len;
 
@@ -40,9 +37,10 @@ int main(){
 
 	do{
 		scanf("%s", string);
-		//sendto(sockfd, (const char*)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 		sendto(sockfd, (const char*)string, strlen(string), MSG_CONFIRM, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 		printf("Hello message sent. \n");
+		if(strcmp(string, "exit\0") == 0)
+			break;
 		n = recvfrom(sockfd, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) &servaddr, &len);
 		buffer[n] = '\0';
 		printf("Server : %s\n", buffer);
