@@ -11,7 +11,6 @@
 #define PORT 8080
 #define MAXLINE 1024
 
-// Create socket
 void create_socket(int *sockfd){
 
 	*sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -21,7 +20,6 @@ void create_socket(int *sockfd){
 	}
 }
 
-// Filling server information
 void set_info(struct sockaddr_in *servaddr){
 
 	servaddr->sin_family = AF_INET;
@@ -30,17 +28,15 @@ void set_info(struct sockaddr_in *servaddr){
 
 }
 
-//Bind the socket with the server address
 void bind_socket(int *sockfd, struct sockaddr_in *servaddr){
 
-	if(bind(*sockfd, (const struct sockaddr *)servaddr, sizeof(servaddr)) < 0)
+	if(bind(*sockfd, (const struct sockaddr *)servaddr, sizeof(*servaddr)) < 0)
 	{
 		perror("bind failed");
 		exit(EXIT_FAILURE);
 	}
 }
 
-// Chat between client and server
 void chat_client(int *sockfd, struct sockaddr_in *servaddr){
 
 	char *string = malloc(sizeof(char) * 1024);
@@ -69,8 +65,8 @@ void chat_server(int *sockfd, struct sockaddr_in *servaddr, struct sockaddr_in *
 	int len, n;
 	while(1){
 		n = recvfrom(*sockfd, (char *)buffer, MAXLINE, MSG_WAITALL, (struct sockaddr *) cliaddr, &len);
-		buffer[n] = '\0'
-		prinft("Client : %s\n", buffer);
+		buffer[n] = '\0';
+		printf("Client : %s\n", buffer);
 		if(strcmp(buffer, "exit\0") == 0)
 			break;
 		sendto(*sockfd, (const char *)hello, strlen(hello), MSG_CONFIRM, (const struct sockaddr *) cliaddr, len);
