@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include "functions.h"
 
-#define PORT 8080
+#define PORT 8888
 #define MAXLINE 1024
 
 void create_socket(int *sockfd){
