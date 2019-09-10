@@ -4,6 +4,8 @@
 // Create socket
 void create_socket(int *sockfd);
 
+void create_non_block_socket(int *sockfd);
+
 // Set information
 void set_info(struct sockaddr_in *servaddr);
 

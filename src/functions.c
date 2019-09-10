@@ -13,7 +13,18 @@
 
 void create_socket(int *sockfd){
 
-	*sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	//*sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	*sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if(*sockfd < 0){
+		perror("socket creation failed");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void create_non_block_socket(int *sockfd){
+
+	//*sockfd = socket(AF_INET,SOCK_DGRAM | SOCK_NONBLOCK, 0);
+	*sockfd = socket(AF_INET, SOCK_DGRAM | SOCK_NONBLOCK, IPPROTO_UDP);
 	if(*sockfd < 0){
 		perror("socket creation failed");
 		exit(EXIT_FAILURE);
