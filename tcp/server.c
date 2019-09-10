@@ -13,41 +13,12 @@
 #define PORT 8888
 #define SA struct sockaddr
 
-// Function designed for chat between client and server.
-void func(int sockfd)
-{
-    char buff[MAX];
-    int n;
-    // infinite loop for chat
-    for (;;) {
-        bzero(buff, MAX);
-
-        // read the message from client and copy it in buffer
-        read(sockfd, buff, sizeof(buff));
-        // print buffer which contains the client contents
-        printf("From client: %s\t To client : ", buff);
-        bzero(buff, MAX);
-        n = 0;
-        // copy server message in the buffer
-        while ((buff[n++] = getchar()) != '\n')
-            ;
-
-        // and send that buffer to client
-        write(sockfd, buff, sizeof(buff));
-
-        // if msg contains "Exit" then server exit and chat ended.
-        if (strncmp("exit", buff, 4) == 0) {
-            printf("Server Exit...\n");
-            break;
-        }
-    }
-}
-
 // Driver function
 int main()
 {
     int sockfd, connfd, len, event_count;
     size_t bytes_read;
+    ssize_t count;
     char read_buffer[READ_SIZE + 1];
     struct sockaddr_in servaddr, cli;
     struct epoll_event event, events[MAX_EVENTS];
@@ -90,17 +61,6 @@ int main()
     }
     else
         printf("Server listening..\n");
-    //len = sizeof(cli);
-
-    // Accept the data packet from client and verification
-    //connfd = accept(sockfd, (SA*)&cli, &len);
-    //if (connfd < 0) {
-    //    printf("server acccept failed...\n");
-    //    exit(0);
-    //}
-    //else
-    //    printf("server acccept the client...\n");
-    printf("tutaj");
     event.events = EPOLLIN;
     event.data.fd = sockfd;
 
@@ -112,21 +72,16 @@ int main()
 
     while(1)
     {
-        //printf("dziala");
         event_count = epoll_wait(epoll_fd, events, MAX_EVENTS, 3000);
-
         for(int i = 0; i < event_count; i++)
         {
-            printf("Reading file descriptor '%d' -- ", events[i].data.fd);
-            bytes_read = read(events[i].data.fd, read_buffer, READ_SIZE);
-            printf("%zd bytes read.\n", bytes_read);
-            read_buffer[bytes_read] = '\0';
-            printf("Read '%s'\n", read_buffer);
+                 count = read(events[i].data.fd, read_buffer, sizeof(read_buffer)-1);
+                 read_buffer[count] = '\0';
+                 printf("%s \n", read_buffer);
+	 	 printf("jestem");
+                 //close(events[i].data.fd);
         }
     }
-    // Function for chatting between client and server
-    //func(connfd);
-
     // After chatting close the socket
     close(epoll_fd);
     close(sockfd);
