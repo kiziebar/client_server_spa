@@ -2,9 +2,9 @@ BUILD_DIR = ./bin
 
 DIRS=${BUILD_DIR}
 
-SOURCE_SERVER = ./src/server.c
-SOURCE_CLIENT = ./src/client.c
-SOURCE_FUNCTIONS = ./src/functions.c
+SOURCE_SERVER = ./tcp/server.c
+SOURCE_CLIENT = ./tcp/client.c
+SOURCE_FUNCTIONS = ./tcp/functions.c
 
 APP_C=${BUILD_DIR}/cli.out
 APP_S=${BUILD_DIR}/serv.out
@@ -21,4 +21,4 @@ ${APP_S}: ${SOURCE_SERVER} ${SOURCE_CLIENT}
 	${CC} ${CFLAGS} ${SOURCE_SERVER} ${SOURCE_FUNCTIONS} -o $@
 
 ${APP_C}: ${SOURCE_SERVER} ${SOURCE_CLIENT}
-	${CC} ${CFLAGS} ${SOURCE_CLIENT} ${SOURCE_FUNCTIONS} -o $@
+	${CC} ${CFLAGS} ${SOURCE_CLIENT} -o $@
