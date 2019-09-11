@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #define MAX 80
-#define PORT 8888
+#define PORT 8123
 #define SA struct sockaddr
 
 int main()
@@ -32,8 +32,9 @@ int main()
     {
         printf("Podaj stringa \n");
         scanf("%s", string);
-        printf("%s", string);
 	send(sockfd, string, strlen(string),0);
+        if(strcmp(string, "exit") == 0)
+            break;
     }
 
 
