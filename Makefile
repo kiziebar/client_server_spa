@@ -22,3 +22,6 @@ ${APP_S}: ${SOURCE_SERVER} ${SOURCE_CLIENT}
 
 ${APP_C}: ${SOURCE_SERVER} ${SOURCE_CLIENT}
 	${CC} ${CFLAGS} ${SOURCE_CLIENT} -o $@
+
+clean:
+	rm -r ./bin
