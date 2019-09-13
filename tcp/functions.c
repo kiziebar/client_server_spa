@@ -87,9 +87,9 @@ void chat_server(int *single_event)
     count = read(*single_event, read_buffer, sizeof(read_buffer)-1);
     read_buffer[count] = '\0';
     printf("%s \n", read_buffer);
-	if(strcmp(read_buffer,"exit") == 0)
+    if(strcmp(read_buffer,"exit") == 0)
     {
-		printf("Event close...\n");
+        printf("Event close...\n");
         close(*single_event);
     }
 }
