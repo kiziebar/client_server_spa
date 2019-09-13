@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include "functions.h"
 
-#define MAX_EVENTS 5
+const int MAX_EVENTS 5;
 
 // Server function
 int main()
