@@ -60,15 +60,15 @@ int non_block(int sockfd)
 
 void add_event(struct epoll_event *event, int *single_event, int *epoll_fd)
 {
-    int new_fd;
     struct sockaddr_in client;
     socklen_t addr_size = sizeof(client);
 
     // Accept new file descriptor
-    new_fd = accept(*single_event, (struct sockaddr *) &client, &addr_size);
-    if(new_fd == -1)
+    int new_fd = accept(*single_event, (struct sockaddr *) &client, &addr_size);
+    if(new_fd == -1){
         printf("New descriptor not accept...");
         exit(0);
+    }       
     printf("New connection on server...\n");
 
     // Make new file descriptor non-blocking
@@ -81,10 +81,9 @@ void add_event(struct epoll_event *event, int *single_event, int *epoll_fd)
 void chat_server(int *single_event)
 {
     char read_buffer[READ_SIZE + 1];
-    ssize_t count;
 
     // Read message from client
-    count = read(*single_event, read_buffer, sizeof(read_buffer)-1);
+    ssize_t count = read(*single_event, read_buffer, sizeof(read_buffer)-1);
     read_buffer[count] = '\0';
     printf("%s \n", read_buffer);
     if(strcmp(read_buffer,"exit") == 0)
